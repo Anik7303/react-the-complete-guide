@@ -1,3 +1,18 @@
 .App {
     text-align: center;
 }
+
+.btn {
+    background: white;
+    color: blue;
+}
+
+.btn:hover,
+.btn:active {
+    background: blue;
+    color: white;
+}
+
+.btn:focus {
+    outline: none;
+}
