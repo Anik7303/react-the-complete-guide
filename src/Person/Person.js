@@ -1,12 +1,12 @@
 import React from "react";
-// import Radium from "radium";
-import "./Person.css";
+import Radium from "radium";
+import CssClass from "./Person.css";
 // import "./Person.css";
 
 const person = (props) => {
     return (
-        <div className="Person">
-            <p className={props.className} onClick={props.click}>
+        <div className={CssClass.Person}>
+            <p onClick={props.click}>
                 I'm a {props.name} and I am {props.age} years old!
             </p>
             <p>{props.children}</p>
@@ -27,6 +27,5 @@ const person = (props) => {
 //     }
 // }
 
-export default person;
-// export default Radium(person);
+export default Radium(person);
 // export default Person;

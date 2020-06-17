@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import React, { useState } from "react";
 import Radium, { StyleRoot } from "radium";
-import "./App.css";
+import CssClass from "./App.css";
 import Person from "./Person/Person";
 
 class App extends Component {
@@ -45,21 +45,22 @@ class App extends Component {
     };
 
     render() {
-        const style = {
-            font: "inherit",
-            border: "2px solid blue",
-            padding: "10px 20px",
-            cursor: "pointer",
-            borderRadius: "5px",
-            backgroundColor: "green",
-            color: "white",
-            ":hover": {
-                backgroundColor: "lightgreen",
-                color: "black",
-            },
-        };
+        // const style = {
+        //     font: "inherit",
+        //     border: "2px solid blue",
+        //     padding: "10px 20px",
+        //     cursor: "pointer",
+        //     borderRadius: "5px",
+        //     backgroundColor: "green",
+        //     color: "white",
+        //     ":hover": {
+        //         backgroundColor: "lightgreen",
+        //         color: "black",
+        //     },
+        // };
 
         let persons = null;
+        let btnStyle = CssClass.btn;
         if (this.state.showPersons) {
             persons = (
                 <div>
@@ -67,7 +68,6 @@ class App extends Component {
                         return (
                             <Person
                                 key={person.id}
-                                className="person"
                                 name={person.name}
                                 age={person.age}
                                 click={this.deletePersonHandler.bind(
@@ -84,23 +84,20 @@ class App extends Component {
                     })}
                 </div>
             );
-            style.backgroundColor = "red";
-            style[":hover"] = {
-                backgroundColor: "salmon",
-                color: "black",
-            };
+            // style.backgroundColor = "red";
+            // style[":hover"] = {
+            //     backgroundColor: "salmon",
+            //     color: "black",
+            // };
+            btnStyle = [btnStyle, CssClass.red].join(" ");
         }
 
         return (
             <StyleRoot>
-                <div className="App">
+                <div className={CssClass.App}>
                     <h1>Hi, I'm a React App</h1>
                     <p>This is really working!</p>
-                    <button
-                        style={style}
-                        className="btn"
-                        onClick={this.togglePersons}
-                    >
+                    <button className={btnStyle} onClick={this.togglePersons}>
                         {this.state.showPersons ? "Hide" : "Show"}
                     </button>
                     {persons}
