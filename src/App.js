@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 // import React, { useState } from "react";
+import Radium, { StyleRoot } from "radium";
 import "./App.css";
 import Person from "./Person/Person";
 
@@ -49,7 +50,13 @@ class App extends Component {
             border: "2px solid blue",
             padding: "10px 20px",
             cursor: "pointer",
-            borderRadius: "50%",
+            borderRadius: "5px",
+            backgroundColor: "green",
+            color: "white",
+            ":hover": {
+                backgroundColor: "lightgreen",
+                color: "black",
+            },
         };
 
         let persons = null;
@@ -77,26 +84,33 @@ class App extends Component {
                     })}
                 </div>
             );
+            style.backgroundColor = "red";
+            style[":hover"] = {
+                backgroundColor: "salmon",
+                color: "black",
+            };
         }
 
         return (
-            <div className="App">
-                <h1>Hi, I'm a React App</h1>
-                <p>This is really working!</p>
-                <button
-                    className="btn"
-                    style={style}
-                    onClick={this.togglePersons}
-                >
-                    {this.state.showPersons ? "Hide" : "Show"}
-                </button>
-                {persons}
-            </div>
+            <StyleRoot>
+                <div className="App">
+                    <h1>Hi, I'm a React App</h1>
+                    <p>This is really working!</p>
+                    <button
+                        style={style}
+                        className="btn"
+                        onClick={this.togglePersons}
+                    >
+                        {this.state.showPersons ? "Hide" : "Show"}
+                    </button>
+                    {persons}
+                </div>
+            </StyleRoot>
         );
     }
 }
 
-export default App;
+export default Radium(App);
 
 // const app = (props) => {
 //     const style = {
