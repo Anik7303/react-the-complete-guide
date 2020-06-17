@@ -151,20 +151,26 @@ export default App;
 //     let persons = null;
 
 //     if (personsState.showPersons) {
-//         persons = personsState.persons.map((person, index) => {
-//             return (
-//                 <Person
-//                     key={person.id}
-//                     className="person"
-//                     name={person.name}
-//                     age={person.age}
-//                     click={deletePerson.bind(null, index)}
-//                     changeName={(event) => changeNameHandler(event, person.id)}
-//                 >
-//                     {person.hobbies}
-//                 </Person>
-//             );
-//         });
+//         persons = (
+//             <div>
+//                 {personsState.persons.map((person, index) => {
+//                     return (
+//                         <Person
+//                             key={person.id}
+//                             className="person"
+//                             name={person.name}
+//                             age={person.age}
+//                             click={deletePerson.bind(null, index)}
+//                             changeName={(event) =>
+//                                 changeNameHandler(event, person.id)
+//                             }
+//                         >
+//                             {person.hobbies}
+//                         </Person>
+//                     );
+//                 })}
+//             </div>
+//         );
 //     }
 
 //     return (
