@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-// import React, { useState } from "react";
-import Radium, { StyleRoot } from "radium";
 import CssClass from "./App.css";
 import Person from "./Person/Person";
 
@@ -15,7 +13,6 @@ class App extends Component {
     };
 
     deletePersonHandler = (personIndex) => {
-        // const persons = this.state.persons.slice();
         const persons = [...this.state.persons];
         persons.splice(personIndex, 1);
         this.setState({ persons: persons });
@@ -25,7 +22,6 @@ class App extends Component {
         if (event && id) {
             const persons = [...this.state.persons].map((person) => {
                 const temp = { ...person };
-                // const temp = Object.assign({}, person);
                 if (temp.id === id) {
                     temp.name = event.target.value;
                 }
@@ -45,20 +41,6 @@ class App extends Component {
     };
 
     render() {
-        // const style = {
-        //     font: "inherit",
-        //     border: "2px solid blue",
-        //     padding: "10px 20px",
-        //     cursor: "pointer",
-        //     borderRadius: "5px",
-        //     backgroundColor: "green",
-        //     color: "white",
-        //     ":hover": {
-        //         backgroundColor: "lightgreen",
-        //         color: "black",
-        //     },
-        // };
-
         let persons = null;
         let btnStyle = CssClass.btn;
         if (this.state.showPersons) {
@@ -84,116 +66,20 @@ class App extends Component {
                     })}
                 </div>
             );
-            // style.backgroundColor = "red";
-            // style[":hover"] = {
-            //     backgroundColor: "salmon",
-            //     color: "black",
-            // };
             btnStyle = [btnStyle, CssClass.red].join(" ");
         }
 
         return (
-            <StyleRoot>
-                <div className={CssClass.App}>
-                    <h1>Hi, I'm a React App</h1>
-                    <p>This is really working!</p>
-                    <button className={btnStyle} onClick={this.togglePersons}>
-                        {this.state.showPersons ? "Hide" : "Show"}
-                    </button>
-                    {persons}
-                </div>
-            </StyleRoot>
+            <div className={CssClass.App}>
+                <h1>Hi, I'm a React App</h1>
+                <p>This is really working!</p>
+                <button className={btnStyle} onClick={this.togglePersons}>
+                    {this.state.showPersons ? "Hide" : "Show"}
+                </button>
+                {persons}
+            </div>
         );
     }
 }
 
-export default Radium(App);
-
-// const app = (props) => {
-//     const style = {
-//         font: "inherit",
-//         border: "2px solid blue",
-//         padding: "10px 20px",
-//         cursor: "pointer",
-//         borderRadius: "10px",
-//     };
-
-//     const [personsState, setPersonsState] = useState({
-//         persons: [
-//             { id: "asdlf", name: "Max", age: 28 },
-//             { id: "eghet", name: "Manu", age: 29, hobbies: ["Racing"] },
-//             { id: "weqr3", name: "Stephane", age: 26 },
-//         ],
-//         showPersons: false,
-//     });
-
-//     const deletePerson = (personIndex) => {
-//         const persons = personsState.persons.filter(
-//             (person, index) => index !== personIndex
-//         );
-//         setPersonsState({
-//             persons: persons,
-//             showPersons: personsState.showPersons,
-//         });
-//     };
-
-//     const changeNameHandler = (event, id) => {
-//         if (event && id) {
-//             const persons = personsState.persons.map((person) => {
-//                 const temp = { ...person };
-//                 if (temp.id === id) temp.name = event.target.value;
-//                 return temp;
-//             });
-//             setPersonsState({
-//                 persons: persons,
-//                 showPersons: personsState.showPersons,
-//             });
-//         }
-//     };
-
-//     const togglePersons = () => {
-//         const doesShow = personsState.showPersons;
-//         setPersonsState({
-//             persons: personsState.persons,
-//             showPersons: !doesShow,
-//         });
-//     };
-
-//     let persons = null;
-
-//     if (personsState.showPersons) {
-//         persons = (
-//             <div>
-//                 {personsState.persons.map((person, index) => {
-//                     return (
-//                         <Person
-//                             key={person.id}
-//                             className="person"
-//                             name={person.name}
-//                             age={person.age}
-//                             click={deletePerson.bind(null, index)}
-//                             changeName={(event) =>
-//                                 changeNameHandler(event, person.id)
-//                             }
-//                         >
-//                             {person.hobbies}
-//                         </Person>
-//                     );
-//                 })}
-//             </div>
-//         );
-//     }
-
-//     return (
-//         <div className="App">
-//             <h1>Hi, I'm a React App</h1>
-//             <p>This is really working!</p>
-//             <button className="btn" style={style} onClick={togglePersons}>
-//                 Show Persons
-//             </button>
-//             {persons}
-//         </div>
-//     );
-// };
-
-// export default app;
+export default App;
