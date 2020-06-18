@@ -1,8 +1,12 @@
-.App {
-    text-align: center;
+.red {
+    color: red;
 }
 
-.btn {
+.bold {
+    font-weight: bold;
+}
+
+.Cockpit button.btn {
     font: inherit;
     border: 2px solid blue;
     padding: 10px 20px;
@@ -12,23 +16,23 @@
     color: white;
 }
 
-.btn:hover,
-.btn:active {
+.Cockpit button.btn:hover,
+.Cockpit button.btn:active {
     background-color: lightgreen;
     color: black;
 }
 
-.btn:focus {
+.Cockpit button.btn:focus {
     outline: none;
 }
 
-.red {
+.Cockpit button.red {
     background-color: red;
     color: white;
 }
 
-.red:hover,
-.red:active {
+.Cockpit button.red:hover,
+.Cockpit button.red:active {
     background-color: salmon;
     color: black;
 }
