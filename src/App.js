@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 // import React, { useState } from "react";
-import Radium, { StyleRoot } from "radium";
 import CssClass from "./App.css";
 import Person from "./Person/Person";
 
@@ -93,21 +92,19 @@ class App extends Component {
         }
 
         return (
-            <StyleRoot>
-                <div className={CssClass.App}>
-                    <h1>Hi, I'm a React App</h1>
-                    <p>This is really working!</p>
-                    <button className={btnStyle} onClick={this.togglePersons}>
-                        {this.state.showPersons ? "Hide" : "Show"}
-                    </button>
-                    {persons}
-                </div>
-            </StyleRoot>
+            <div className={CssClass.App}>
+                <h1>Hi, I'm a React App</h1>
+                <p>This is really working!</p>
+                <button className={btnStyle} onClick={this.togglePersons}>
+                    {this.state.showPersons ? "Hide" : "Show"}
+                </button>
+                {persons}
+            </div>
         );
     }
 }
 
-export default Radium(App);
+export default App;
 
 // const app = (props) => {
 //     const style = {
