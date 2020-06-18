@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import React, { useState } from "react";
 import "./App.css";
 import Person from "./Person/Person";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 class App extends Component {
     state = {
@@ -58,21 +59,22 @@ class App extends Component {
                 <div>
                     {this.state.persons.map((person, index) => {
                         return (
-                            <Person
-                                key={person.id}
-                                className="person"
-                                name={person.name}
-                                age={person.age}
-                                click={this.deletePersonHandler.bind(
-                                    null,
-                                    index
-                                )}
-                                changeName={(event) =>
-                                    this.changeNameHandler(event, person.id)
-                                }
-                            >
-                                {person.hobbies}
-                            </Person>
+                            <ErrorBoundary key={person.id}>
+                                <Person
+                                    className="person"
+                                    name={person.name}
+                                    age={person.age}
+                                    click={this.deletePersonHandler.bind(
+                                        null,
+                                        index
+                                    )}
+                                    changeName={(event) =>
+                                        this.changeNameHandler(event, person.id)
+                                    }
+                                >
+                                    {person.hobbies}
+                                </Person>
+                            </ErrorBoundary>
                         );
                     })}
                 </div>
