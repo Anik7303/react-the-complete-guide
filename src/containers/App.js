@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import CssClass from "./App.css";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
 
-class App extends Component {
+class App extends React.Component {
     state = {
         persons: [
             { id: "asdlf", name: "Max", age: 28 },
@@ -12,6 +12,59 @@ class App extends Component {
         ],
         showPersons: false,
     };
+
+    // Mounting Lifecycle
+    // - constructor(props)
+    // - getDerivedStateFromProps(props, state)
+    // - render()
+    // - componentDidMount()
+
+    constructor(props) {
+        super(props);
+        console.log("[App.js] constructor");
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        console.log("[App.js] getDerivedStateFromProps", props);
+        return state;
+    }
+
+    componentDidMount() {
+        console.log("[App.js] componentDidMount");
+    }
+
+    // Updating Lifecycle
+    // - getDerivedStateFromProps(props, state)
+    // - shouldComponentUpdate(nextProps, nextState)
+    // - render()
+    // - getSnapshotBeforeUpdate(prevProps, prevState)
+    // - componentDidUpdate(prevProps, prevState, snapshot)
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log("[App.js] shouldComponentUpdate");
+        return true;
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        const snapshot = null;
+        console.log("[App.js] getSnapshotBeforeUpdate");
+        return snapshot;
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log("[App.js] componentDidUpdate");
+    }
+
+    // Unmounting Lifecycle
+    // - componentWillUnmount
+
+    componentWillUnmount() {
+        console.log("[App.js] componentWillUnmount");
+    }
+
+    // Error Handling lifecycle
+    // - getDerivedStateFromProps(props, state)
+    // - componentDidCatch(error, info)
 
     deletePersonHandler = (personIndex) => {
         const persons = [...this.state.persons];
@@ -42,6 +95,7 @@ class App extends Component {
     };
 
     render() {
+        console.log("[App.js] render");
         let persons = null;
         if (this.state.showPersons) {
             persons = (
