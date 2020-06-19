@@ -6,13 +6,13 @@ class Persons extends Component {
     constructor(props) {
         super(props);
         console.log("[Persons.js] constructor");
-        this.state = {};
+        // this.state = {};
     }
 
-    static getDerivedStateFromProps(props, state) {
-        console.log("[Persons.js] getDerivedStateFromProps", props);
-        return state;
-    }
+    // static getDerivedStateFromProps(props, state) {
+    //     console.log("[Persons.js] getDerivedStateFromProps", props);
+    //     return state;
+    // }
 
     componentDidMount() {
         console.log("[Persons.js] componentDidMount");

@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CssClass from "./Cockpit.css";
 
 const cockpit = (props) => {
+    // runs only once
+    // useEffect(() => {
+    //     console.log("[Cockpit.js] useEffect (1) - only when mounted");
+    //     const timer = setTimeout(() => alert("Save data to cloud"));
+    //     return () => {
+    //         console.log("[Cockpit.js] cleanup work in useEffect (1)");
+    //         clearTimeout(timer);
+    //     };
+    // }, []);
+
+    // useEffect(() => {
+    //     console.log(
+    //         "[Cockpit.js] useEffect (2) - only when personsLength change"
+    //     );
+    //     return () => {
+    //         console.log("[Cockpit.js] cleanup work in useEffect (2)");
+    //     };
+    // }, [props.personsLength]);
+
     const assignedClasses = [];
     let btnStyle = CssClass.btn;
     if (props.showPersons) {
