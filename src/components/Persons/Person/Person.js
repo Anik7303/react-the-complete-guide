@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Aux from "../../hoc/Auxiliary";
 import CssClass from "./Person.css";
 
 class Person extends Component {

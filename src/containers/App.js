@@ -2,6 +2,9 @@ import React from "react";
 import CssClass from "./App.css";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
+// import WithClass from "../components/hoc/WithClass";
+import withClass from "../components/hoc/withClass";
+import Aux from "../components/hoc/Auxiliary";
 
 class App extends React.Component {
     state = {
@@ -70,7 +73,7 @@ class App extends React.Component {
     deletePersonHandler = (personIndex) => {
         const persons = [...this.state.persons];
         persons.splice(personIndex, 1);
-        this.setState({ persons: persons });
+        this.setState((prevState, props) => ({ persons: prevState.persons }));
     };
 
     changeNameHandler = (event, id) => {
@@ -100,13 +103,13 @@ class App extends React.Component {
         let persons = null;
         if (this.state.showPersons) {
             persons = (
-                <div>
-                    <Persons
-                        persons={this.state.persons}
-                        clicked={this.deletePersonHandler}
-                        changed={this.changeNameHandler}
-                    />
-                </div>
+                // <div>
+                <Persons
+                    persons={this.state.persons}
+                    clicked={this.deletePersonHandler}
+                    changed={this.changeNameHandler}
+                />
+                // </div>
             );
         }
 
@@ -136,7 +139,8 @@ class App extends React.Component {
         }
 
         return (
-            <div className={CssClass.App}>
+            // <WithClass classes={CssClass.App}>
+            <Aux>
                 <button
                     // style={cockpitStyle}
                     className={CssClass.btn}
@@ -148,9 +152,10 @@ class App extends React.Component {
                 </button>
                 {cockpit}
                 {persons}
-            </div>
+            </Aux>
+            // </WithClass>
         );
     }
 }
 
-export default App;
+export default withClass(App, CssClass.App);
