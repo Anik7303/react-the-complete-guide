@@ -6,7 +6,7 @@ class Person extends Component {
     constructor(props) {
         super(props);
         console.log("[Person.js] constructor");
-        // this.state = {};
+        this.inputElementRef = React.createRef();
     }
 
     // static getDerivedStateFromProps(props, state) {
@@ -16,6 +16,7 @@ class Person extends Component {
 
     componentDidMount() {
         console.log("[Person.js] componentDidMount");
+        this.inputElementRef.current.focus();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -52,6 +53,7 @@ class Person extends Component {
                     </p>
                     <p>{this.props.children}</p>
                     <input
+                        ref={this.inputElementRef}
                         type="text"
                         onChange={this.props.changeName}
                         value={this.props.name}

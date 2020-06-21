@@ -7,6 +7,11 @@
     margin: 16px auto;
 }
 
+.Person input:focus {
+    outline: none;
+    border: 2px solid yellowgreen;
+}
+
 @media (min-width: 500px) {
     .Person {
         width: 450px;

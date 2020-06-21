@@ -2,15 +2,17 @@ import React from "react";
 import CssClass from "./Cockpit.css";
 
 const cockpit = (props) => {
+    const showButtonElRef = React.useRef(null);
     // runs only once
-    // React.useEffect(() => {
-    //     console.log("[Cockpit.js] useEffect (1) - only when mounted");
-    //     const timer = setTimeout(() => alert("Save data to cloud"));
-    //     return () => {
-    //         console.log("[Cockpit.js] cleanup work in useEffect (1)");
-    //         clearTimeout(timer);
-    //     };
-    // }, []);
+    React.useEffect(() => {
+        console.log("[Cockpit.js] useEffect (1) - only when mounted");
+        // const timer = setTimeout(() => alert("Save data to cloud"));
+        showButtonElRef.current.click();
+        return () => {
+            console.log("[Cockpit.js] cleanup work in useEffect (1)");
+            // clearTimeout(timer);
+        };
+    }, []);
 
     // React.useEffect(() => {
     //     console.log(
@@ -44,7 +46,11 @@ const cockpit = (props) => {
         <div className={CssClass.Cockpit}>
             <h1>{props.title}</h1>
             <p className={assignedClasses.join(" ")}>This is really working!</p>
-            <button className={btnStyle} onClick={props.togglePersons}>
+            <button
+                ref={showButtonElRef}
+                className={btnStyle}
+                onClick={props.togglePersons}
+            >
                 {props.show ? "Hide" : "Show"}
             </button>
         </div>
