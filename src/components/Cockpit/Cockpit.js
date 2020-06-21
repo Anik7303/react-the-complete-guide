@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import CssClass from "./Cockpit.css";
 
 const cockpit = (props) => {
     // runs only once
-    // useEffect(() => {
+    // React.useEffect(() => {
     //     console.log("[Cockpit.js] useEffect (1) - only when mounted");
     //     const timer = setTimeout(() => alert("Save data to cloud"));
     //     return () => {
@@ -12,7 +12,7 @@ const cockpit = (props) => {
     //     };
     // }, []);
 
-    // useEffect(() => {
+    // React.useEffect(() => {
     //     console.log(
     //         "[Cockpit.js] useEffect (2) - only when personsLength change"
     //     );
@@ -20,6 +20,13 @@ const cockpit = (props) => {
     //         console.log("[Cockpit.js] cleanup work in useEffect (2)");
     //     };
     // }, [props.personsLength]);
+
+    React.useEffect(() => {
+        console.log("[Cockpit.js] 3rd useEffect");
+        return () => {
+            console.log("[Cockpit.js] cleanup work in 3rd useEffect");
+        };
+    });
 
     const assignedClasses = [];
     let btnStyle = CssClass.btn;
@@ -35,7 +42,7 @@ const cockpit = (props) => {
 
     return (
         <div className={CssClass.Cockpit}>
-            <h1>Hi, I'm a React App</h1>
+            <h1>{props.title}</h1>
             <p className={assignedClasses.join(" ")}>This is really working!</p>
             <button className={btnStyle} onClick={props.togglePersons}>
                 {props.show ? "Hide" : "Show"}
@@ -44,4 +51,4 @@ const cockpit = (props) => {
     );
 };
 
-export default cockpit;
+export default React.memo(cockpit);

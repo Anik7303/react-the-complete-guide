@@ -11,6 +11,7 @@ class App extends React.Component {
             { id: "weqr3", name: "Stephane", age: 26 },
         ],
         showPersons: false,
+        showCockpit: true,
     };
 
     // Mounting Lifecycle
@@ -109,13 +110,43 @@ class App extends React.Component {
             );
         }
 
+        let cockpit = null;
+        // const cockpitStyle = {
+        //     backgroundColor: "yellowgreen",
+        //     color: "darkgreen",
+        //     fontSize: "1.5rem",
+        //     fontWeight: "bold",
+        //     padding: "10px 20px",
+        //     margin: "10px auto 0",
+        //     boxShadow: "3px 3px 3px lightgreen",
+        //     borderRadius: "3px",
+        //     cursor: "pointer",
+        // };
+        if (this.state.showCockpit) {
+            cockpit = (
+                <div>
+                    <Cockpit
+                        title={this.props.appname}
+                        personsLength={this.state.persons.length}
+                        showPersons={this.state.showPersons}
+                        togglePersons={this.togglePersons}
+                    />
+                </div>
+            );
+        }
+
         return (
             <div className={CssClass.App}>
-                <Cockpit
-                    personsLength={this.state.persons.length}
-                    showPersons={this.state.showPersons}
-                    togglePersons={this.togglePersons}
-                />
+                <button
+                    // style={cockpitStyle}
+                    className={CssClass.btn}
+                    onClick={() => {
+                        this.setState({ showCockpit: !this.state.showCockpit });
+                    }}
+                >
+                    Toggle Cockpit
+                </button>
+                {cockpit}
                 {persons}
             </div>
         );

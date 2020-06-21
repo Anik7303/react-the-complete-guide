@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 
 import Person from "./Person/Person";
 
-class Persons extends Component {
+class Persons extends React.PureComponent {
     constructor(props) {
         super(props);
         console.log("[Persons.js] constructor");
@@ -18,10 +18,17 @@ class Persons extends Component {
         console.log("[Persons.js] componentDidMount");
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log("[Persons.js] shouldComponentUpdate");
-        return true;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log("[Persons.js] shouldComponentUpdate");
+    //     if (
+    //         nextProps.persons !== this.props.persons ||
+    //         nextProps.click !== this.props.click ||
+    //         nextProps.changeName !== this.props.changeName
+    //     ) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
         const snapshot = null;
