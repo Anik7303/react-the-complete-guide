@@ -44,7 +44,7 @@ class Person extends Component {
     render() {
         console.log("[Person.js] render");
         return (
-            <Aux>
+            <React.Fragment>
                 <div className={CssClass.Person}>
                     <p onClick={this.props.click}>
                         I'm a {this.props.name} and I am {this.props.age} years
@@ -57,7 +57,7 @@ class Person extends Component {
                         value={this.props.name}
                     />
                 </div>
-            </Aux>
+            </React.Fragment>
         );
     }
 }
