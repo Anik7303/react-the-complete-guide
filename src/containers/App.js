@@ -15,6 +15,7 @@ class App extends React.Component {
         ],
         showPersons: false,
         showCockpit: true,
+        changeCounter: 0,
     };
 
     // Mounting Lifecycle
@@ -73,7 +74,7 @@ class App extends React.Component {
     deletePersonHandler = (personIndex) => {
         const persons = [...this.state.persons];
         persons.splice(personIndex, 1);
-        this.setState((prevState, props) => ({ persons: prevState.persons }));
+        this.setState({ persons: persons });
     };
 
     changeNameHandler = (event, id) => {
@@ -85,8 +86,11 @@ class App extends React.Component {
                 }
                 return temp;
             });
-            this.setState({
-                persons: persons,
+            this.setState((prevState, props) => {
+                return {
+                    persons: persons,
+                    changeCounter: prevState.changeCounter + 1,
+                };
             });
         }
     };
