@@ -5,6 +5,7 @@ import Cockpit from "../components/Cockpit/Cockpit";
 // import WithClass from "../components/hoc/WithClass";
 import withClass from "../components/hoc/withClass";
 import Aux from "../components/hoc/Auxiliary";
+import AuthContext from "../context/auth-context";
 
 class App extends React.Component {
     state = {
@@ -16,6 +17,7 @@ class App extends React.Component {
         showPersons: false,
         showCockpit: true,
         changeCounter: 0,
+        authenticated: false,
     };
 
     // Mounting Lifecycle
@@ -102,6 +104,10 @@ class App extends React.Component {
         });
     };
 
+    loginHandler = () => {
+        this.setState({ authenticated: true });
+    };
+
     render() {
         console.log("[App.js] render");
         let persons = null;
@@ -154,8 +160,15 @@ class App extends React.Component {
                 >
                     Toggle Cockpit
                 </button>
-                {cockpit}
-                {persons}
+                <AuthContext.Provider
+                    value={{
+                        authenticated: this.state.authenticated,
+                        login: this.loginHandler,
+                    }}
+                >
+                    {cockpit}
+                    {persons}
+                </AuthContext.Provider>
             </Aux>
             // </WithClass>
         );

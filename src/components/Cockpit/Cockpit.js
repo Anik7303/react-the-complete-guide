@@ -1,8 +1,10 @@
 import React from "react";
 import CssClass from "./Cockpit.css";
+import AuthContext from "../../context/auth-context";
 
 const cockpit = (props) => {
     const showButtonElRef = React.useRef(null);
+    const authContext = React.useContext(AuthContext);
     // runs only once
     React.useEffect(() => {
         console.log("[Cockpit.js] useEffect (1) - only when mounted");
@@ -52,6 +54,16 @@ const cockpit = (props) => {
                 onClick={props.togglePersons}
             >
                 {props.show ? "Hide" : "Show"}
+            </button>
+            {/* <AuthContext.Consumer>
+                {(context) => (
+                    <button className={CssClass.btn} onClick={context.login}>
+                        Login
+                    </button>
+                )}
+            </AuthContext.Consumer> */}
+            <button className={CssClass.btn} onClick={authContext.login}>
+                Login
             </button>
         </div>
     );
