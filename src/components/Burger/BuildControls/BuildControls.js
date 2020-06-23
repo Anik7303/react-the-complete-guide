@@ -4,10 +4,10 @@ import BuildControl from "./BuildControl/BuildControl";
 import CssClass from "./BuildControls.css";
 
 const controls = [
-    { label: "Salad", type: "salad" },
     { label: "Bacon", type: "bacon" },
     { label: "Cheese", type: "cheese" },
     { label: "Meat", type: "meat" },
+    { label: "Salad", type: "salad" },
 ];
 
 const buildControls = (props) => {
@@ -28,6 +28,7 @@ const buildControls = (props) => {
             <button
                 className={CssClass.OrderButton}
                 disabled={!props.purchasable}
+                onClick={props.ordering}
             >
                 Order Now
             </button>
