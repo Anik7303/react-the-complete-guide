@@ -72,8 +72,11 @@ class BurgerBuilder extends React.Component {
         };
         Axios.post("/orders.json", order)
             .then((response) => {
-                this.setState({ loading: false, purchaseMode: false });
-                console.log(response);
+                this.setState({
+                    loading: false,
+                    purchaseMode: false,
+                });
+                this.setIngredients();
             })
             .catch((error) => {
                 this.setState({ loading: false, purchaseMode: false });
@@ -110,6 +113,17 @@ class BurgerBuilder extends React.Component {
         this.updatePurchangeseState();
     };
 
+    setIngredients() {
+        Axios.get("/ingredients.json")
+            .then((response) => {
+                this.setState({ ingredients: response.data });
+            })
+            .catch((error) => error);
+    }
+
+    // componentDidMount() {
+    //     this.setIngredients();
+    // }
     constructor(props) {
         super(props);
         Axios.get("/ingredients.json")
