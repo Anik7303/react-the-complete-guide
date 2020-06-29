@@ -1,21 +1,24 @@
 import React, { Component } from "react";
 
 // import Axios from "axios";
-import Axios from "../../axios";
+import Axios from "../../../axios";
 
 import "./FullPost.css";
 
 class FullPost extends Component {
-    state = {
-        post: null,
-    };
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.id) {
+    constructor(props) {
+        super(props);
+        this.state = { post: null };
+    }
+
+    componentDidMount() {
+        const postId = Number.parseInt(this.props.match.params.postId) | null;
+        if (postId) {
             if (
                 this.state.post === null ||
-                this.state.post.id !== this.props.id
+                (this.state.post && this.state.post.id !== postId)
             ) {
-                Axios.get(`/posts/${this.props.id}`)
+                Axios.get(`/posts/${postId}`)
                     .then((response) => {
                         this.setState({ post: response.data });
                     })
@@ -26,7 +29,9 @@ class FullPost extends Component {
 
     render() {
         let post = <p style={{ textAlign: "center" }}>Please select a Post!</p>;
-        if (this.state.post && this.state.post.id === this.props.id) {
+        const postId = Number.parseInt(this.props.match.params.postId);
+
+        if (this.state.post && postId && this.state.post.id === postId) {
             post = (
                 <div className="FullPost">
                     <h1>{this.state.post.title}</h1>
@@ -38,9 +43,10 @@ class FullPost extends Component {
                     </div>
                 </div>
             );
-        } else if (this.props.id) {
+        } else if (postId) {
             post = <p style={{ textAlign: "center" }}>Loading...</p>;
         }
+
         return post;
     }
 }

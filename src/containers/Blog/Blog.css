@@ -4,20 +4,32 @@
     padding: 0;
     width: 100%;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .navigation-bar li {
     display: inline-block;
-    margin: 20px;
+    margin: 20px 0px;
 }
 
 .navigation-bar a {
     text-decoration: none;
     color: black;
     outline: none;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-bottom: 4px solid transparent;
 }
-
+/* 
 .navigation-bar a:hover,
 .navigation-bar a:active {
     color: #fa923f;
+} */
+
+.navigation-bar a:hover,
+.navigation-bar a:active,
+.navigation-bar a.active {
+    color: #fa923f;
+    border: 1px solid #fa923f;
+    border-bottom: 4px solid #fa923f;
 }
