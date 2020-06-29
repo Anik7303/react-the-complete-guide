@@ -1,36 +1,16 @@
 import React, { Component } from "react";
+import { Route, Link } from "react-router-dom";
 
 import Axios from "axios";
-
-import Post from "../../components/Post/Post";
-import FullPost from "../../components/FullPost/FullPost";
-import NewPost from "../../components/NewPost/NewPost";
 import "./Blog.css";
+import Posts from "./Posts/Posts";
+import NewPost from "./NewPost/NewPost";
 
 class Blog extends Component {
     state = {
         posts: [],
         selectedPostId: null,
         error: null,
-    };
-
-    componentDidMount() {
-        Axios.get("/posts")
-            .then((response) => {
-                const posts = response.data.slice(0, 6);
-                const updatedPosts = posts.map((post) => {
-                    return {
-                        ...post,
-                        author: "Max",
-                    };
-                });
-                this.setState({ posts: updatedPosts });
-            })
-            .catch((error) => this.setState({ error: error }));
-    }
-
-    postSelectHandler = (postId) => {
-        this.setState({ selectedPostId: postId });
     };
 
     postDeleteHandler = () => {
@@ -53,25 +33,25 @@ class Blog extends Component {
     };
 
     render() {
-        let posts = (
-            <p style={{ textAlign: "center" }}>Something went wrong!</p>
-        );
-        if (!this.state.error) {
-            posts = this.state.posts.map((post) => {
-                return (
-                    <Post
-                        key={post.id}
-                        title={post.title}
-                        author={post.author}
-                        clicked={() => this.postSelectHandler(post.id)}
-                    />
-                );
-            });
-        }
         return (
             <div>
-                <section className="Posts">{posts}</section>
-                <section>
+                <header>
+                    <nav className="navigation-bar">
+                        <ul>
+                            <li>
+                                <Link to="/">Home</Link>
+                            </li>
+                            <li>
+                                <Link to={{ pathname: "/new-post" }}>
+                                    New Post
+                                </Link>
+                            </li>
+                        </ul>
+                    </nav>
+                </header>
+                <Route path="/" exact component={Posts} />
+                <Route path="/new-post" exact component={NewPost} />
+                {/* <section>
                     <FullPost
                         id={this.state.selectedPostId}
                         deleted={this.postDeleteHandler}
@@ -79,7 +59,7 @@ class Blog extends Component {
                 </section>
                 <section>
                     <NewPost addPostFn={this.addNewPostHandler} />
-                </section>
+                </section> */}
             </div>
         );
     }
