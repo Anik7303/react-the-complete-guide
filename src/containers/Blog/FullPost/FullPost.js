@@ -12,11 +12,11 @@ class FullPost extends Component {
     }
 
     componentDidMount() {
-        const postId = Number.parseInt(this.props.match.params.postId) | null;
+        const postId = this.props.match.params.postId;
         if (postId) {
             if (
                 this.state.post === null ||
-                (this.state.post && this.state.post.id !== postId)
+                (this.state.post && this.state.post.id.toString() !== postId)
             ) {
                 Axios.get(`/posts/${postId}`)
                     .then((response) => {
@@ -29,9 +29,13 @@ class FullPost extends Component {
 
     render() {
         let post = <p style={{ textAlign: "center" }}>Please select a Post!</p>;
-        const postId = Number.parseInt(this.props.match.params.postId);
+        const postId = this.props.match.params.postId;
 
-        if (this.state.post && postId && this.state.post.id === postId) {
+        if (
+            this.state.post &&
+            postId &&
+            this.state.post.id.toString() === postId
+        ) {
             post = (
                 <div className="FullPost">
                     <h1>{this.state.post.title}</h1>

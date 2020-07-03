@@ -42,7 +42,7 @@ class Blog extends Component {
                         <ul>
                             <li>
                                 <NavLink to="/" exact>
-                                    Home
+                                    Posts
                                 </NavLink>
                                 {/* <NavLink
                                     to="/"
@@ -66,10 +66,13 @@ class Blog extends Component {
                     </nav>
                 </header>
                 <Route path="/" exact component={Posts} />
+                {/* in case of 'Switch' once a match is found no other Route will be checked */}
                 <Switch>
                     <Route path="/new-post" exact component={NewPost} />
                     <Route path="/post/:postId" exact component={FullPost} />
+                    <Redirect from="/posts" to="/" />
                 </Switch>
+                {/* <Redirect to="/" /> */}
                 {/* <section>
                     <FullPost
                         id={this.state.selectedPostId}
