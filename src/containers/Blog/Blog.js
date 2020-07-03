@@ -5,7 +5,6 @@ import { Route, NavLink, Switch, Redirect } from "react-router-dom";
 import Axios from "axios";
 import "./Blog.css";
 import Posts from "./Posts/Posts";
-// import asyncComponent from "../../hoc/asyncComponent";
 const NewPost = React.lazy(() => import("./NewPost/NewPost"));
 
 class Blog extends Component {
