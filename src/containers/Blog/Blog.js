@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Route, NavLink, Switch } from "react-router-dom";
+import { Route, NavLink, Switch, Redirect } from "react-router-dom";
 // import { Route, Link, NavLink } from "react-router-dom";
 
 import Axios from "axios";
 import "./Blog.css";
 import Posts from "./Posts/Posts";
 import NewPost from "./NewPost/NewPost";
-import FullPost from "./FullPost/FullPost";
 
 class Blog extends Component {
     state = {
@@ -41,9 +40,7 @@ class Blog extends Component {
                     <nav className="navigation-bar">
                         <ul>
                             <li>
-                                <NavLink to="/" exact>
-                                    Posts
-                                </NavLink>
+                                <NavLink to="/posts">Posts</NavLink>
                                 {/* <NavLink
                                     to="/"
                                     exact
@@ -58,30 +55,21 @@ class Blog extends Component {
                                 {/* <Link to="/" exact>Home</Link> */}
                             </li>
                             <li>
-                                <NavLink to={{ pathname: "/new-post" }}>
+                                <NavLink exact to={{ pathname: "/new-post" }}>
                                     New Post
                                 </NavLink>
                             </li>
                         </ul>
                     </nav>
                 </header>
-                <Route path="/" exact component={Posts} />
                 {/* in case of 'Switch' once a match is found no other Route will be checked */}
                 <Switch>
+                    <Route path="/posts" component={Posts} />
                     <Route path="/new-post" exact component={NewPost} />
-                    <Route path="/post/:postId" exact component={FullPost} />
+                    {/* <Route path="/post/:postId" exact component={FullPost} /> */}
                     <Redirect from="/posts" to="/" />
+                    {/* <Redirect to="/" /> */}
                 </Switch>
-                {/* <Redirect to="/" /> */}
-                {/* <section>
-                    <FullPost
-                        id={this.state.selectedPostId}
-                        deleted={this.postDeleteHandler}
-                    />
-                </section>
-                <section>
-                    <NewPost addPostFn={this.addNewPostHandler} />
-                </section> */}
             </div>
         );
     }

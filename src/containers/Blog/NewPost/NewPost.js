@@ -39,7 +39,11 @@ class NewPost extends Component {
         Axios.post("/posts", post)
             .then((response) => {
                 if (response.status === 201) {
-                    this.props.addPostFn(response.data);
+                    // this.props.addPostFn(response.data);
+                    this.props.history.push({
+                        pathname: "/posts",
+                        state: { newPost: response.data },
+                    });
                 }
             })
             .catch((error) => console.log(error));

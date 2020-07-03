@@ -3,7 +3,9 @@ import React from "react";
 // import { Link } from "react-router-dom";
 import Axios from "../../../axios";
 import Post from "../../../components/Post/Post";
+import FullPost from "../FullPost/FullPost";
 import "./Posts.css";
+import { Route } from "react-router";
 
 class Posts extends React.Component {
     constructor(props) {
@@ -33,7 +35,7 @@ class Posts extends React.Component {
     }
 
     postSelectHandler = (postId) => {
-        this.props.history.push({ pathname: `/post/${postId}` });
+        this.props.history.push({ pathname: `/posts/${postId}` });
         // this.props.history.push(`/post/${postId}`);
     };
 
@@ -55,7 +57,12 @@ class Posts extends React.Component {
             ));
         }
 
-        return <section className="Posts">{posts}</section>;
+        return (
+            <React.Fragment>
+                <section className="Posts">{posts}</section>
+                <Route path="/posts/:postId" exact component={FullPost} />
+            </React.Fragment>
+        );
     }
 }
 
