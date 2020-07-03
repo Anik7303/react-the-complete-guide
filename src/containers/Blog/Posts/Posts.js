@@ -1,10 +1,8 @@
 import React from "react";
 import { Route } from "react-router";
 
-// import { Link } from "react-router-dom";
 import Axios from "../../../axios";
 import Post from "../../../components/Post/Post";
-// import FullPost from "../FullPost/FullPost";
 import "./Posts.css";
 import asyncComponent from "../../../hoc/asyncComponent";
 const FullPost = asyncComponent(() => import("../FullPost/FullPost"));

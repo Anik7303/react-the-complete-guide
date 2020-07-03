@@ -1,13 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { Route, NavLink, Switch, Redirect } from "react-router-dom";
 // import { Route, Link, NavLink } from "react-router-dom";
 
 import Axios from "axios";
 import "./Blog.css";
 import Posts from "./Posts/Posts";
-// import NewPost from "./NewPost/NewPost";
-import asyncComponent from "../../hoc/asyncComponent";
-const NewPost = asyncComponent(() => import("./NewPost/NewPost"));
+// import asyncComponent from "../../hoc/asyncComponent";
+const NewPost = React.lazy(() => import("./NewPost/NewPost"));
 
 class Blog extends Component {
     constructor(props) {
@@ -47,7 +46,15 @@ class Blog extends Component {
                 {/* in case of 'Switch' once a match is found no other Route will be checked */}
                 <Switch>
                     <Route path="/posts" component={Posts} />
-                    <Route path="/new-post" exact component={NewPost} />
+                    <Route
+                        path="/new-post"
+                        exact
+                        render={() => (
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <NewPost {...this.props} />
+                            </Suspense>
+                        )}
+                    />
                     {/* {this.state.auth ? (
                         <Route path="/new-post" exact component={NewPost} />
                     ) : null} */}

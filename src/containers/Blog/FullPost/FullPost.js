@@ -39,6 +39,7 @@ class FullPost extends Component {
     }
 
     render() {
+        console.log("[FullPost] props: ", this.props);
         let post = <p style={{ textAlign: "center" }}>Please select a Post!</p>;
         const postId = this.props.match.params.postId.toString();
 
