@@ -1,15 +1,18 @@
 import React, { Component } from "react";
-
 import Axios from "axios";
 
 import "./NewPost.css";
 
 class NewPost extends Component {
-    state = {
-        title: "",
-        content: "",
-        author: "Max",
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: "",
+            content: "",
+            author: "Max",
+        };
+        this.postDataHandler = this.postDataHandler.bind(this);
+    }
 
     postDataHandler = () => {
         let userId = 0;
@@ -32,13 +35,20 @@ class NewPost extends Component {
         Axios.post("/posts", post)
             .then((response) => {
                 if (response.status === 201) {
-                    this.props.addPostFn(response.data);
+                    console.log("[NewPost] props: ", this.props);
+                    this.props.history.replace({
+                        pathname: "/posts",
+                        state: { newPost: response.data },
+                    });
+                } else {
+                    this.props.history.replace("/new-post");
                 }
             })
             .catch((error) => console.log(error));
     };
 
     render() {
+        console.log("[NewPost] props: ", this.props);
         return (
             <div className="NewPost">
                 <h1>Add a Post</h1>

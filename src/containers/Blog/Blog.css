@@ -1,0 +1,33 @@
+.Blog nav {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.Blog nav ul {
+    margin: 16px;
+    padding: 0;
+    text-align: center;
+    list-style: none;
+}
+
+.Blog nav li {
+    display: inline-block;
+    /* padding: 10px; */
+}
+
+.Blog nav li a {
+    padding: 10px;
+    text-decoration: none;
+}
+
+.Blog nav li a:hover,
+.Blog nav li a:active {
+    color: #f2938f;
+}
+
+.active {
+    background-color: black;
+    color: white;
+}
