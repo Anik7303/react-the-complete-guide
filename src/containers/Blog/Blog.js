@@ -1,10 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, Suspense, lazy } from "react";
 import { NavLink, Route, Switch, Redirect } from "react-router-dom";
 
-import Posts from "../../containers/Blog/Posts/Posts";
-import NewPost from "../../containers/Blog/Posts/NewPost/NewPost";
-import FullPost from "../../containers/Blog/Posts/FullPost/FullPost";
 import "./Blog.css";
+import Posts from "../../containers/Blog/Posts/Posts";
+import asyncComponent from "../../hoc/asyncComponent";
+
+const NewPost = lazy(() => import("./Posts/NewPost/NewPost"));
+const FullPost = asyncComponent(() => import("./Posts/FullPost/FullPost"));
 
 class Blog extends Component {
     render() {
@@ -16,8 +18,8 @@ class Blog extends Component {
                         <ul>
                             <li>
                                 <NavLink
-                                    to={{ pathname: "/posts" }}
                                     exact
+                                    to={{ pathname: "/posts" }}
                                     activeClassName="active"
                                     // activeStyle={{ color: "pink" }}
                                 >
@@ -27,11 +29,7 @@ class Blog extends Component {
                                 {/* <Link to="/">Home</Link> */}
                             </li>
                             <li>
-                                <NavLink
-                                    to="/new-post"
-                                    exact
-                                    activeClassName="active"
-                                >
+                                <NavLink exact to="/new-post">
                                     New Post
                                 </NavLink>
                             </li>
@@ -40,9 +38,17 @@ class Blog extends Component {
                 </header>
                 <Switch>
                     <Route path="/posts" exact component={Posts} />
-                    <Route path="/new-post" exact component={NewPost} />
+                    <Route
+                        path="/new-post"
+                        exact
+                        render={() => (
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <NewPost {...this.props} />
+                            </Suspense>
+                        )}
+                    />
                     <Route path="/posts/:postId" exact component={FullPost} />
-                    <Redirect to={{ pathname: "/posts" }} />
+                    <Redirect from="/" to={{ pathname: "/posts" }} />
                 </Switch>
             </div>
         );
