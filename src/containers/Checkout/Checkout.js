@@ -1,0 +1,22 @@
+import React from "react";
+
+import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
+
+class Checkout extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ingredients: {
+                salad: 0,
+                bacon: 0,
+                meat: 0,
+                cheese: 0,
+            },
+        };
+    }
+    render() {
+        return <CheckoutSummary ingredients={this.state.ingredients} />;
+    }
+}
+
+export default Checkout;
