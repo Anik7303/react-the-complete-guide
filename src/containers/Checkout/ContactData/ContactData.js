@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 import Axios from "../../../axios-orders";
 import Button from "../../../components/UI/Button/Button";
@@ -160,7 +161,10 @@ class ContactData extends React.Component {
             },
             deliveryMethod: orderForm.deliveryMethod.value,
         };
-        Axios.post("/orders.json", orderObj)
+        this.orderSource = axios.CancelToken.source();
+        Axios.post("/orders.json", orderObj, {
+            cancelToken: this.orderSource.token,
+        })
             .then((response) => {
                 this.setState({ loading: false });
                 console.log(response);
@@ -171,6 +175,10 @@ class ContactData extends React.Component {
                 console.log(error);
             });
         this.props.history.push("/");
+    }
+
+    componentWillUnmount() {
+        if (this.orderSource) this.orderSource.cancel();
     }
 
     render() {

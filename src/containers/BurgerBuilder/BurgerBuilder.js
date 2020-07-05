@@ -8,6 +8,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
 import Axios from "../../axios-orders";
+import axios from "axios";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 const INGREDIENT_PRICES = {
@@ -100,7 +101,11 @@ class BurgerBuilder extends React.Component {
     };
 
     setIngredients() {
-        Axios.get("/ingredients.json")
+        if (this.ingredientGetSource) this.ingredientGetSource.cancel();
+        this.ingredientGetSource = axios.CancelToken.source();
+        Axios.get("/ingredients.json", {
+            cancelToken: this.ingredientGetSource.token,
+        })
             .then((response) => {
                 this.setState({ ingredients: response.data });
             })
@@ -112,11 +117,18 @@ class BurgerBuilder extends React.Component {
     // }
     constructor(props) {
         super(props);
-        Axios.get("/ingredients.json")
+        this.ingredientGetSource = axios.CancelToken.source();
+        Axios.get("/ingredients.json", {
+            cancelToken: this.ingredientGetSource.token,
+        })
             .then((response) => {
                 this.setState({ ingredients: response.data });
             })
             .catch((error) => error);
+    }
+
+    componentWillUnmount() {
+        this.ingredientGetSource.cancel();
     }
 
     render() {
