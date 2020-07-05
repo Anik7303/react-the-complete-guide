@@ -1,7 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import Axios from "../../axios-orders";
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import ContactData from "./ContactData/ContactData";
@@ -16,7 +15,6 @@ class Checkout extends React.Component {
         };
         this.checkoutContinueHandler = this.checkoutContinueHandler.bind(this);
         this.checkoutCancelHandler = this.checkoutCancelHandler.bind(this);
-        this.orderHandler = this.orderHandler.bind(this);
     }
 
     checkoutContinueHandler() {
@@ -27,40 +25,13 @@ class Checkout extends React.Component {
         this.props.history.goBack();
     }
 
-    orderHandler(order) {
-        this.setState({ loading: true });
-        const orderObj = {
-            ingredients: { ...this.state.ingredients },
-            price: this.state.price.toFixed(2),
-            customer: {
-                name: order.name,
-                address: {
-                    street: order.street,
-                    postalCode: order.postalCode,
-                },
-                email: order.email,
-            },
-            deliveryMethod: order.deliveryMethod,
-        };
-        Axios.post("/orders.json", orderObj)
-            .then((response) => {
-                this.setState({ loading: false });
-                console.log(response);
-                this.props.history.push("/");
-            })
-            .catch((error) => {
-                this.setState({ loading: false });
-                console.log(error);
-            });
-    }
-
     setData() {
         const query = new URLSearchParams(this.props.location.search);
         const ingredients = {};
         let price = 0;
         for (const entry of query.entries()) {
             if (entry[0] === "price") {
-                price = Number.parseInt(entry[1], 10);
+                price = Number.parseFloat(entry[1], 10);
             } else {
                 ingredients[entry[0]] = Number.parseInt(entry[1], 10);
             }
@@ -87,7 +58,12 @@ class Checkout extends React.Component {
                 {!this.state.loading ? (
                     <Route
                         path={`${this.props.match.url}/contact-data`}
-                        render={() => <ContactData order={this.orderHandler} />}
+                        render={() => (
+                            <ContactData
+                                ingredients={this.state.ingredients}
+                                price={this.state.price}
+                            />
+                        )}
                     />
                 ) : (
                     <Spinner />
