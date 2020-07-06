@@ -1,0 +1,24 @@
+.CounterInput {
+    width: 100%;
+    background-color: #fa923f;
+    color: white;
+    padding: 20px 0;
+    box-sizing: border-box;
+}
+
+.CounterInput input {
+    width: 80%;
+    max-width: 200px;
+    background-color: white;
+    color: #fa923f;
+    font-size: 1.8rem;
+    margin: auto;
+    padding: 8px 16px;
+    outline: none;
+    border: 2px solid transparent;
+}
+
+.CounterInput input:focus {
+    border-color: #693000;
+    box-shadow: 0 2px 3px #c55d07;
+}

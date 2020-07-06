@@ -3,42 +3,31 @@ import { connect } from "react-redux";
 
 import * as actionTypes from "../../store/actions";
 import CounterControl from "../../components/CounterControl/CounterControl";
+import CounterInput from "../../components/CounterInput/CounterInput";
 import CounterOutput from "../../components/CounterOutput/CounterOutput";
 
 class Counter extends Component {
-    state = {
-        counter: 0,
-    };
+    constructor(props) {
+        super(props);
+        this.state = { userInput: 0 };
+        this.onInputChangeHandler = this.onInputChangeHandler.bind(this);
+    }
 
-    counterChangedHandler = (action, value) => {
-        switch (action) {
-            case "dec":
-                this.setState((prevState) => {
-                    return { counter: prevState.counter - 1 };
-                });
-                break;
-            case "add":
-                this.setState((prevState) => {
-                    return { counter: prevState.counter + value };
-                });
-                break;
-            case "sub":
-                this.setState((prevState) => {
-                    return { counter: prevState.counter - value };
-                });
-                break;
-            case "inc":
-            default:
-                this.setState((prevState) => {
-                    return { counter: prevState.counter + 1 };
-                });
+    onInputChangeHandler(event) {
+        if (event && event.target.value) {
+            const value = event.target.value;
+            this.setState({ userInput: parseInt(value, 10) });
         }
-    };
+    }
 
     render() {
         return (
             <div>
                 <CounterOutput value={this.props.counter} />
+                <CounterInput
+                    value={this.state.userInput}
+                    onInputChange={this.onInputChangeHandler}
+                />
                 <CounterControl
                     label="Increment"
                     clicked={this.props.onIncrementCounter}
@@ -48,12 +37,16 @@ class Counter extends Component {
                     clicked={this.props.onDecrementCounter}
                 />
                 <CounterControl
-                    label="Add 5"
-                    clicked={() => this.props.onAddCounter(5)}
+                    label="Add"
+                    clicked={() =>
+                        this.props.onAddCounter(this.state.userInput)
+                    }
                 />
                 <CounterControl
-                    label="Subtract 5"
-                    clicked={() => this.props.onSubtractCounter(5)}
+                    label="Subtract"
+                    clicked={() =>
+                        this.props.onSubtractCounter(this.state.userInput)
+                    }
                 />
                 <hr />
                 <button
@@ -87,9 +80,9 @@ class Counter extends Component {
                             <li
                                 key={result._id}
                                 style={{
-                                    width: "100%",
-                                    padding: "5px 10px",
-                                    margin: "10px auto",
+                                    // width: "100%",
+                                    padding: "16px 8px",
+                                    margin: "16px auto",
                                     border: "2px solid rgb(128, 128, 0)",
                                     borderRadius: "5px",
                                     boxSizing: "border-box",
