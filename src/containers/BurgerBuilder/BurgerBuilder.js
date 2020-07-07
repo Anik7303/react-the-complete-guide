@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
@@ -10,6 +11,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import Axios from "../../axios-orders";
 import axios from "axios";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import * as actionTypes from "../../store/actions";
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -112,9 +114,6 @@ class BurgerBuilder extends React.Component {
             .catch((error) => error);
     }
 
-    // componentDidMount() {
-    //     this.setIngredients();
-    // }
     constructor(props) {
         super(props);
         this.ingredientGetSource = axios.CancelToken.source();
@@ -132,6 +131,7 @@ class BurgerBuilder extends React.Component {
     }
 
     render() {
+        console.log("[BurgerBuilder] props: ", this.props);
         const disabledInfo = { ...this.state.ingredients };
         for (const key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0;
@@ -182,4 +182,26 @@ class BurgerBuilder extends React.Component {
     }
 }
 
-export default withErrorHandler(BurgerBuilder, Axios);
+const mapStateToProps = (state) => {
+    return { ingredients: state.ingredients, price: state.price };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onIngredientAdd: (ingredient) =>
+            dispatch({
+                type: actionTypes.ADD_INGREDIENT,
+                ingredient: ingredient,
+            }),
+        onIngredientRemove: (ingredient) =>
+            dispatch({
+                type: actionTypes.REMOVE_INGREDIENT,
+                ingredient: ingredient,
+            }),
+    };
+};
+
+export default withErrorHandler(
+    connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder),
+    Axios
+);
