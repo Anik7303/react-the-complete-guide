@@ -63,7 +63,7 @@ class Counter extends Component {
                         boxSizing: "border-box",
                         boxShadow: "0 2px 3px rgba(0, 255, 0, 0.3)",
                     }}
-                    onClick={this.props.onStoreResult}
+                    onClick={() => this.props.onStoreResult(this.props.counter)}
                 >
                     Store Result
                 </button>
@@ -80,7 +80,6 @@ class Counter extends Component {
                             <li
                                 key={result._id}
                                 style={{
-                                    // width: "100%",
                                     padding: "16px 8px",
                                     margin: "16px auto",
                                     border: "2px solid rgb(128, 128, 0)",
@@ -102,7 +101,10 @@ class Counter extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return { counter: state.counter, results: state.results };
+    return {
+        counter: state.counterState.counter,
+        results: state.resultsState.results,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -113,7 +115,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch({ type: actionTypes.ADD, value: value }),
         onSubtractCounter: (value) =>
             dispatch({ type: actionTypes.SUBTRACT, value: value }),
-        onStoreResult: () => dispatch({ type: actionTypes.STORE_RESULT }),
+        onStoreResult: (counter) =>
+            dispatch({ type: actionTypes.STORE_RESULT, counter: counter }),
         onDeleteResult: (id) =>
             dispatch({ type: actionTypes.DELETE_RESULT, id: id }),
     };
