@@ -174,7 +174,6 @@ class ContactData extends React.Component {
                 this.setState({ loading: false });
                 console.log(error);
             });
-        this.props.history.push("/");
     }
 
     componentWillUnmount() {
