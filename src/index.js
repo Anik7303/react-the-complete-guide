@@ -8,12 +8,19 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import store from "./store/store";
 
+// const app = (
+//     <BrowserRouter basename="/">
+//         <Provider store={store}>
+//             <App />
+//         </Provider>
+//     </BrowserRouter>
+// );
 const app = (
-    <BrowserRouter basename="/">
-        <Provider store={store}>
+    <Provider store={store}>
+        <BrowserRouter basename="/">
             <App />
-        </Provider>
-    </BrowserRouter>
+        </BrowserRouter>
+    </Provider>
 );
 
 ReactDOM.render(app, document.getElementById("root"));

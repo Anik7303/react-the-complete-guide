@@ -2,12 +2,13 @@ import React from "react";
 
 import BuildControl from "./BuildControl/BuildControl";
 import CssClass from "./BuildControls.css";
+import { INGREDIENTS } from "../Ingredients/ingredients";
 
 const controls = [
-    { label: "Bacon", type: "bacon" },
-    { label: "Cheese", type: "cheese" },
-    { label: "Meat", type: "meat" },
-    { label: "Salad", type: "salad" },
+    { label: "Bacon", type: INGREDIENTS.BACON },
+    { label: "Cheese", type: INGREDIENTS.CHEESE },
+    { label: "Meat", type: INGREDIENTS.MEAT },
+    { label: "Salad", type: INGREDIENTS.SALAD },
 ];
 
 const buildControls = (props) => {

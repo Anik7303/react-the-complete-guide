@@ -1,68 +1,59 @@
 import * as actionTypes from "../actions";
-import INGREDIENT_PRICES from "../../components/Burger/IngredientPrices/ingredientPrices";
+import {
+    INGREDIENTS,
+    INGREDIENT_PRICES,
+} from "../../components/Burger/Ingredients/ingredients";
 
 const initialState = {
     ingredients: {
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0,
+        [INGREDIENTS.SALAD]: 0,
+        [INGREDIENTS.BACON]: 0,
+        [INGREDIENTS.CHEESE]: 0,
+        [INGREDIENTS.MEAT]: 0,
     },
     price: 4,
 };
+// const initialState = {
+//     ingredients: null,
+//     price: 4,
+// };
 
 const burgerReducer = (state = initialState, action) => {
-    let temp = null;
-    // let temp = { ...state, ingredients: { ...state.ingredients } };
-    let element = null;
     switch (action.type) {
+        case actionTypes.SET_INGREDIENTS:
+            return {
+                ...state,
+                ingredients: { ...action.ingredients },
+            };
         case actionTypes.ADD_INGREDIENT:
-            element = action.ingredient;
-            temp = {
+            return {
                 ...state,
                 ingredients: {
                     ...state.ingredients,
-                    [element]: state.ingredients[element] + 1,
+                    [action.ingredient]:
+                        state.ingredients[action.ingredient] + 1,
                 },
-                price: state.price + INGREDIENT_PRICES[element],
+                price: Number.parseFloat(
+                    (
+                        state.price + INGREDIENT_PRICES[action.ingredient]
+                    ).toFixed(2)
+                ),
             };
-            console.log("[burgerReducer] state: ", temp);
-            // temp.ingredients[action.ingredient] =
-            //     temp.ingredients[action.ingredient] + 1;
-            return temp;
 
         case actionTypes.REMOVE_INGREDIENT:
-            element = action.ingredient;
-            temp = {
+            return {
                 ...state,
                 ingredients: {
                     ...state.ingredients,
-                    [element]: state.ingredients[element] - 1,
+                    [action.ingredient]:
+                        state.ingredients[action.ingredient] - 1,
                 },
-                price: state.price - INGREDIENT_PRICES[element],
+                price: Number.parseFloat(
+                    (
+                        state.price - INGREDIENT_PRICES[action.ingredient]
+                    ).toFixed(2)
+                ),
             };
-            console.log("[burgerReducer] state: ", temp);
-            // temp.ingredients[action.ingredient] =
-            //     temp.ingredients[action.ingredient] - 1;
-            return temp;
-
-        // case actionTypes.INCREASE_PRICE:
-        //     temp = {
-        //         ...state,
-        //         ingredients: { ...state.ingredients },
-        //         price: state.price + action.price,
-        //     };
-        //     console.log("[burgerReducer] state: ", temp);
-        //     return temp;
-
-        // case actionTypes.DECREASE_PRICE:
-        //     temp = {
-        //         ...state,
-        //         ingredients: { ...state.ingredients },
-        //         price: state.price - action.price,
-        //     };
-        //     console.log("[burgerReducer] state: ", temp);
-        //     return temp;
 
         default:
             return state;
