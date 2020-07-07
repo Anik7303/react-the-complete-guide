@@ -1,0 +1,23 @@
+.ToggleBtn {
+    width: 32px;
+    height: 60%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
+}
+
+.ToggleBtn span {
+    width: 100%;
+    height: 3px;
+    background-color: white;
+}
+
+.MobileOnly {
+    display: flex;
+}
+
+@media (min-width: 500px) {
+    .MobileOnly {
+        display: none;
+    }
+}
