@@ -56,10 +56,7 @@ const input = (props) => {
     return (
         <div className={CssClass.Input}>
             {props.label && (
-                <label
-                    className={CssClass.Label}
-                    htmlFor={props.attributes.name}
-                >
+                <label className={CssClass.Label} htmlFor={props.config.name}>
                     {props.label}
                 </label>
             )}

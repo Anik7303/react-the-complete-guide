@@ -46,6 +46,7 @@ class ContactData extends React.Component {
                 value: "",
                 validation: {
                     required: true,
+                    isEmail: true,
                 },
                 valid: false,
                 touched: false,
@@ -76,6 +77,7 @@ class ContactData extends React.Component {
                     required: true,
                     minLength: 4,
                     maxLength: 10,
+                    isNumeric: true,
                 },
                 valid: false,
                 touched: false,
@@ -123,6 +125,14 @@ class ContactData extends React.Component {
         if (rules.maxLength) {
             isValid = value.trim().length <= rules.maxLength && isValid;
         }
+        if (rules.isEmail) {
+            const regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = regex.test(value.trim()) && isValid;
+        }
+        if (rules.isNumeric) {
+            const regex = /^\d+$/;
+            isValid = regex.test(value.trim()) && isValid;
+        }
         return isValid;
     }
 
@@ -160,7 +170,7 @@ class ContactData extends React.Component {
             },
             deliveryMethod: orderForm.deliveryMethod.value,
         };
-        this.props.onStoreOrder(orderObj);
+        this.props.onStoreOrder(orderObj, this.props.token);
     }
 
     render() {
@@ -202,12 +212,14 @@ const mapStateToProps = (state) => {
         ingredients: state.burger.ingredients,
         price: state.burger.price,
         loading: state.order.loading,
+        token: state.auth.auth.token,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onStoreOrder: (order) => dispatch(actions.purchaseBurger(order)),
+        onStoreOrder: (order, token) =>
+            dispatch(actions.purchaseBurger(order, token)),
     };
 };
 
