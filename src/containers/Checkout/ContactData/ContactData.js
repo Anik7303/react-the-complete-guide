@@ -1,24 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 
 import Axios from "../../../axios-orders";
 import Button from "../../../components/UI/Button/Button";
 import CssClass from "./ContactData.css";
 import Input from "../../../components/UI/Input/Input";
 import Spinner from "../../../components/UI/Spinner/Spinner";
+import * as actions from "../../../store/actions/index";
+import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 
 class ContactData extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             orderForm: this.getFormsState(),
-            loading: false,
             isFormValid: false,
         };
         this.orderHandler = this.orderHandler.bind(this);
         this.inputChangeHandler = this.inputChangeHandler.bind(this);
-        this.orderHandler = this.orderHandler.bind(this);
     }
 
     getFormsState() {
@@ -146,7 +145,6 @@ class ContactData extends React.Component {
 
     orderHandler(event) {
         event.preventDefault();
-        this.setState({ loading: true });
         const orderForm = this.state.orderForm;
         const orderObj = {
             ingredients: { ...this.props.ingredients },
@@ -162,26 +160,11 @@ class ContactData extends React.Component {
             },
             deliveryMethod: orderForm.deliveryMethod.value,
         };
-        this.orderSource = axios.CancelToken.source();
-        Axios.post("/orders.json", orderObj, {
-            cancelToken: this.orderSource.token,
-        })
-            .then((response) => {
-                this.setState({ loading: false });
-                console.log(response);
-                this.props.history.push("/");
-            })
-            .catch((error) => {
-                this.setState({ loading: false });
-                console.log(error);
-            });
-    }
-
-    componentWillUnmount() {
-        if (this.orderSource) this.orderSource.cancel();
+        this.props.onStoreOrder(orderObj);
     }
 
     render() {
+        console.log("[ContactData] props: ", this.props);
         const formElementsArray = [];
         for (let key in this.state.orderForm) {
             formElementsArray.push(
@@ -192,7 +175,7 @@ class ContactData extends React.Component {
                 />
             );
         }
-        return this.state.loading ? (
+        return this.props.loading ? (
             <Spinner />
         ) : (
             <div className={CssClass.ContactData}>
@@ -217,9 +200,19 @@ class ContactData extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        ingredients: state.ingredients,
-        price: state.price,
+        ingredients: state.burger.ingredients,
+        price: state.burger.price,
+        loading: state.order.loading,
     };
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onStoreOrder: (order) => dispatch(actions.purchaseBurger(order)),
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withErrorHandler(ContactData, Axios));

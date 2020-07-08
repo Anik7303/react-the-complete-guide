@@ -11,7 +11,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import Axios from "../../axios-orders";
 import axios from "axios";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import * as actionTypes from "../../store/actions";
+import * as actionCreators from "../../store/actions/burgerbuilder";
 
 class BurgerBuilder extends React.Component {
     constructor(props) {
@@ -22,13 +22,14 @@ class BurgerBuilder extends React.Component {
         };
         this.getPurchaseState = this.getPurchaseState.bind(this);
         this.ingredientGetSource = axios.CancelToken.source();
-        Axios.get("/ingredients.json", {
-            cancelToken: this.ingredientGetSource.token,
-        })
-            .then((response) => {
-                this.props.setIngredients(response.data);
-            })
-            .catch((error) => error);
+        this.props.initIngredients();
+        // Axios.get("/ingredients.json", {
+        //     cancelToken: this.ingredientGetSource.token,
+        // })
+        //     .then((response) => {
+        //         this.props.setIngredients(response.data);
+        //     })
+        //     .catch((error) => error);
     }
 
     getPurchaseState = () => {
@@ -61,7 +62,7 @@ class BurgerBuilder extends React.Component {
     }
 
     render() {
-        // console.log("[BurgerBuilder] props: ", this.props);
+        console.log("[BurgerBuilder] props: ", this.props);
         const disabledInfo = { ...this.props.ingredients };
         for (const key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0;
@@ -113,26 +114,22 @@ class BurgerBuilder extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { ingredients: state.ingredients, price: state.price };
+    return {
+        ingredients: state.burger.ingredients,
+        price: state.burger.price,
+        error: state.burger.error,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        initIngredients: () => dispatch(actionCreators.initIngredients()),
         setIngredients: (ingredients) =>
-            dispatch({
-                type: actionTypes.SET_INGREDIENTS,
-                ingredients: ingredients,
-            }),
+            dispatch(actionCreators.setIngredients(ingredients)),
         onIngredientAdd: (ingredient) =>
-            dispatch({
-                type: actionTypes.ADD_INGREDIENT,
-                ingredient: ingredient,
-            }),
+            dispatch(actionCreators.addIngredient(ingredient)),
         onIngredientRemove: (ingredient) =>
-            dispatch({
-                type: actionTypes.REMOVE_INGREDIENT,
-                ingredient: ingredient,
-            }),
+            dispatch(actionCreators.removeIngredient(ingredient)),
     };
 };
 
