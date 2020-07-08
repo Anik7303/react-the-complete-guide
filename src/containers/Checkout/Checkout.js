@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import ContactData from "./ContactData/ContactData";
+import * as actions from "../../store/actions/index";
 
 class Checkout extends React.Component {
     constructor(props) {
@@ -20,6 +21,10 @@ class Checkout extends React.Component {
 
     checkoutCancelHandler() {
         this.props.history.goBack();
+    }
+
+    componentWillUnmount() {
+        this.props.resetPurchasedState();
     }
 
     render() {
@@ -58,4 +63,10 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(Checkout);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        resetPurchasedState: () => dispatch(actions.resetPurchasedState()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

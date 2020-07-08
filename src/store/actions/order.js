@@ -67,4 +67,10 @@ const fetchOrders = () => {
     };
 };
 
-export { purchaseBurger, fetchOrders };
+const resetPurchasedState = () => {
+    return {
+        type: actionTypes.RESET_PURCHASED_STATE,
+    };
+};
+
+export { purchaseBurger, resetPurchasedState, fetchOrders };

@@ -1,5 +1,12 @@
 import { INGREDIENT_PRICES } from "../components/Burger/Ingredients/ingredients";
 
+const updateObject = (oldObject, updateProperties) => {
+    return {
+        ...oldObject,
+        ...updateProperties,
+    };
+};
+
 const calculatePrice = (ingredients) => {
     return Number.parseFloat(
         Object.keys(ingredients)
@@ -21,4 +28,4 @@ const formatOrdersData = (ordersData) => {
     });
 };
 
-export { calculatePrice, formatOrdersData };
+export { updateObject, calculatePrice, formatOrdersData };

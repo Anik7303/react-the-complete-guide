@@ -2,7 +2,7 @@ import React from "react";
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 import CssClass from "./Burger.css";
 
-const getIngredients = (ingredients) => {
+const processIngredients = (ingredients) => {
     return Object.keys(ingredients)
         .map((inKey) => {
             return [...Array(ingredients[inKey])].map((_, index) => (
@@ -15,7 +15,7 @@ const getIngredients = (ingredients) => {
 };
 
 const burger = (props) => {
-    let ingredients = getIngredients(props.ingredients);
+    let ingredients = processIngredients(props.ingredients);
     if (ingredients.length === 0) {
         ingredients = <p>Please add ingredients</p>;
     }

@@ -5,4 +5,4 @@ export {
     resetIngredients,
     initIngredients,
 } from "./burgerbuilder";
-export { purchaseBurger, fetchOrders } from "./order";
+export { purchaseBurger, resetPurchasedState, fetchOrders } from "./order";
