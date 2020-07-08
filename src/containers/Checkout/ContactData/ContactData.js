@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Axios from "../../../axios-orders";
+import Axios from "../../../axios";
 import Button from "../../../components/UI/Button/Button";
 import CssClass from "./ContactData.css";
 import Input from "../../../components/UI/Input/Input";
@@ -164,7 +164,6 @@ class ContactData extends React.Component {
     }
 
     render() {
-        console.log("[ContactData] props: ", this.props);
         const formElementsArray = [];
         for (let key in this.state.orderForm) {
             formElementsArray.push(

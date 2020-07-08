@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+// import axios from "axios";
 
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
@@ -8,8 +9,7 @@ import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
-import Axios from "../../axios-orders";
-import axios from "axios";
+import Axios from "../../axios";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import * as actionCreators from "../../store/actions/burgerbuilder";
 
@@ -21,7 +21,7 @@ class BurgerBuilder extends React.Component {
             loading: false,
         };
         this.getPurchaseState = this.getPurchaseState.bind(this);
-        this.ingredientGetSource = axios.CancelToken.source();
+        // this.ingredientGetSource = axios.CancelToken.source();
         this.props.initIngredients();
         // Axios.get("/ingredients.json", {
         //     cancelToken: this.ingredientGetSource.token,
@@ -57,12 +57,11 @@ class BurgerBuilder extends React.Component {
         this.props.history.push("/checkout");
     };
 
-    componentWillUnmount() {
-        this.ingredientGetSource.cancel();
-    }
+    // componentWillUnmount() {
+    //     this.ingredientGetSource.cancel();
+    // }
 
     render() {
-        console.log("[BurgerBuilder] props: ", this.props);
         const disabledInfo = { ...this.props.ingredients };
         for (const key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0;

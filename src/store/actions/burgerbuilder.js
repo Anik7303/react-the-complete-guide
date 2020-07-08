@@ -1,5 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import axios from "axios";
+import axios from "../../axios";
 
 const addIngredient = (ingredient) => {
     return {
@@ -31,9 +31,7 @@ const fetchIngredientsFailed = () => {
 const initIngredients = () => {
     return (dispatch) => {
         axios
-            .get(
-                "https://react-burger-builder-71796.firebaseio.com/ingredients.json"
-            )
+            .get("/ingredients.json")
             .then((response) => {
                 dispatch(setIngredients(response.data));
             })

@@ -1,6 +1,6 @@
 import { INGREDIENT_PRICES } from "../components/Burger/Ingredients/ingredients";
 
-export const calculatePrice = (ingredients) => {
+const calculatePrice = (ingredients) => {
     return Number.parseFloat(
         Object.keys(ingredients)
             .map((key) => ({ name: key, amount: ingredients[key] }))
@@ -10,3 +10,15 @@ export const calculatePrice = (ingredients) => {
             .toFixed(2)
     );
 };
+
+const formatOrdersData = (ordersData) => {
+    return Object.keys(ordersData).map((orderId) => {
+        return {
+            _id: orderId,
+            ...ordersData[orderId],
+            price: Number.parseFloat(ordersData[orderId].price),
+        };
+    });
+};
+
+export { calculatePrice, formatOrdersData };

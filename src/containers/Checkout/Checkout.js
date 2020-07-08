@@ -23,7 +23,6 @@ class Checkout extends React.Component {
     }
 
     render() {
-        console.log("[Checkout] props: ", this.props);
         let summary = (
             <div>
                 {this.props.ingredients ? (
