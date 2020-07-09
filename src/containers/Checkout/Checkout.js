@@ -4,8 +4,10 @@ import { connect } from "react-redux";
 
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import ContactData from "./ContactData/ContactData";
 import * as actions from "../../store/actions/index";
+import asyncComponent from "../../hoc/asyncComponent/asyncComponent";
+
+const ContactData = asyncComponent(() => import("./ContactData/ContactData"));
 
 class Checkout extends React.Component {
     constructor(props) {

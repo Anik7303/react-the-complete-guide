@@ -9,6 +9,7 @@ import Button from "../../components/UI/Button/Button";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import * as actions from "../../store/actions/index";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import { checkValidity } from "../../shared/utility";
 
 class Auth extends React.Component {
     constructor(props) {
@@ -54,30 +55,6 @@ class Auth extends React.Component {
         this.switchAuthModeHandler = this.switchAuthModeHandler.bind(this);
     }
 
-    checkValidity = (value, rules) => {
-        if (!rules) return true;
-
-        let isValid = true;
-        if (rules.isRequired) {
-            isValid = value.trim() !== "" && isValid;
-        }
-        if (rules.minLength) {
-            isValid = value.trim().length >= rules.minLength && isValid;
-        }
-        if (rules.maxLength) {
-            isValid = value.trim().length <= rules.minLength && isValid;
-        }
-        if (rules.isEmail) {
-            const regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-            isValid = regex.test(value.trim()) && isValid;
-        }
-        if (rules.isNumeric) {
-            const regex = /^\d+$/;
-            isValid = regex.test(value.trim()) && isValid;
-        }
-        return isValid;
-    };
-
     inputChangeHandler = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -85,7 +62,7 @@ class Auth extends React.Component {
         tempAuthForm[name] = {
             ...tempAuthForm[name],
             value: value,
-            valid: this.checkValidity(value, tempAuthForm[name].validation),
+            valid: checkValidity(value, tempAuthForm[name].validation),
             touched: true,
         };
         this.setState({
