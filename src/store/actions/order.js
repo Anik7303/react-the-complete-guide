@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios";
 import { formatOrdersData } from "../utility";
+import * as actions from "./index";
 
 const purchaseBurgerSuccess = (order) => {
     return {
@@ -29,6 +30,7 @@ const purchaseBurger = (order, token) => {
             .post(`/orders.json?auth=${token}`, order)
             .then((response) => {
                 const updatedOrder = { ...order, _id: response.data.name };
+                dispatch(actions.resetBurgerBuilding());
                 dispatch(purchaseBurgerSuccess(updatedOrder));
             })
             .catch((err) => dispatch(purchaseBurgerFailed(err)));
@@ -55,13 +57,16 @@ const fetchOrderFailed = (error) => {
     };
 };
 
-const fetchOrders = (token) => {
+const fetchOrders = (token, userId) => {
     return (dispatch) => {
         dispatch(fetchOrderStart());
         axios
             .get(`/orders.json?auth=${token}`)
             .then((response) => {
-                dispatch(fetchOrderSuccess(formatOrdersData(response.data)));
+                const orders = formatOrdersData(response.data).filter(
+                    (order) => order.orderData.userId === userId
+                );
+                dispatch(fetchOrderSuccess(orders));
             })
             .catch((error) => dispatch(fetchOrderFailed(error)));
     };

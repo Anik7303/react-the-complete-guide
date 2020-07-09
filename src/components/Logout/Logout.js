@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 
 const logout = (props) => {
-    props.logout();
+    props.onLogout();
     return <Redirect to="/" />;
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        logout: () => dispatch(actions.logout()),
+        onLogout: () => dispatch(actions.logout()),
     };
 };
 

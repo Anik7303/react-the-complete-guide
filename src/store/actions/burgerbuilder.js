@@ -28,6 +28,12 @@ const fetchIngredientsFailed = () => {
     };
 };
 
+const resetBurgerBuilding = () => {
+    return {
+        type: actionTypes.RESET_BURGER_BUILDING,
+    };
+};
+
 const initIngredients = () => {
     return (dispatch) => {
         axios
@@ -53,4 +59,5 @@ export {
     setIngredients,
     resetIngredients,
     initIngredients,
+    resetBurgerBuilding,
 };

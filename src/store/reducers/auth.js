@@ -4,7 +4,6 @@ import { updateObject } from "../utility";
 const initialState = {
     auth: {
         token: null,
-        refreshToken: null,
         userId: null,
         email: null,
     },
@@ -12,6 +11,7 @@ const initialState = {
     error: null,
     isAuthenticated: false,
     authenticating: false,
+    redirectPath: "/",
 };
 
 const authStart = (state, action) => {
@@ -51,6 +51,10 @@ const setLogoutTimerId = (state, action) => {
     return updateObject(state, { logoutTimer: action.timerId });
 };
 
+const setAuthRedirectPath = (state, action) => {
+    return updateObject(state, { redirectPath: action.path });
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_START:
@@ -63,6 +67,8 @@ const reducer = (state = initialState, action) => {
             return authLogout(state, action);
         case actionTypes.SET_LOGOUT_TIMER_ID:
             return setLogoutTimerId(state, action);
+        case actionTypes.SET_AUTH_REDIRECT_PATH:
+            return setAuthRedirectPath(state, action);
         default:
             return state;
     }

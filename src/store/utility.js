@@ -1,5 +1,14 @@
 import { INGREDIENT_PRICES } from "../components/Burger/Ingredients/ingredients";
 
+const formatIngredients = (ingredients) => {
+    return {
+        salad: ingredients.salad,
+        bacon: ingredients.bacon,
+        cheese: ingredients.cheese,
+        meat: ingredients.meat,
+    };
+};
+
 const updateObject = (oldObject, updateProperties) => {
     return {
         ...oldObject,
@@ -28,4 +37,32 @@ const formatOrdersData = (ordersData) => {
     });
 };
 
-export { updateObject, calculatePrice, formatOrdersData };
+const setDataInStorage = (token, userId, expiresIn) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("expiresIn", expiresIn);
+};
+
+const getDataFromStorage = () => {
+    return {
+        token: localStorage.getItem("token"),
+        userId: localStorage.getItem("userId"),
+        expiresIn: localStorage.getItem("expiresIn"),
+    };
+};
+
+const clearStorage = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("expiresIn");
+};
+
+export {
+    formatIngredients,
+    updateObject,
+    calculatePrice,
+    formatOrdersData,
+    setDataInStorage,
+    getDataFromStorage,
+    clearStorage,
+};

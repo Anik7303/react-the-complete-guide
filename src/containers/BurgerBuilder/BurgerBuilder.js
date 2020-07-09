@@ -11,7 +11,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 
 import Axios from "../../axios";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import * as actionCreators from "../../store/actions/burgerbuilder";
+import * as actions from "../../store/actions/index";
 
 class BurgerBuilder extends React.Component {
     constructor(props) {
@@ -22,7 +22,6 @@ class BurgerBuilder extends React.Component {
         };
         this.getPurchaseState = this.getPurchaseState.bind(this);
         // this.ingredientGetSource = axios.CancelToken.source();
-        this.props.initIngredients();
         // Axios.get("/ingredients.json", {
         //     cancelToken: this.ingredientGetSource.token,
         // })
@@ -42,9 +41,14 @@ class BurgerBuilder extends React.Component {
     };
 
     purchaseHandler = () => {
-        this.setState({
-            purchaseMode: true,
-        });
+        if (this.props.isAuthenticated) {
+            this.setState({
+                purchaseMode: true,
+            });
+        } else {
+            this.props.setAuthRedirectPath("/checkout");
+            this.props.history.push("/auth");
+        }
     };
 
     purchaseCancleHanlder = () => {
@@ -56,6 +60,12 @@ class BurgerBuilder extends React.Component {
     purchaseContinueHandler = () => {
         this.props.history.push("/checkout");
     };
+
+    componentDidMount() {
+        if (!this.props.buildingBurger) {
+            this.props.initIngredients();
+        }
+    }
 
     // componentWillUnmount() {
     //     this.ingredientGetSource.cancel();
@@ -81,6 +91,7 @@ class BurgerBuilder extends React.Component {
                         price={this.props.price}
                         ordering={this.purchaseHandler}
                         purchasable={this.getPurchaseState()}
+                        isAuth={this.props.isAuthenticated}
                     />
                 </Aux>
             );
@@ -117,18 +128,22 @@ const mapStateToProps = (state) => {
         ingredients: state.burger.ingredients,
         price: state.burger.price,
         error: state.burger.error,
+        isAuthenticated: state.auth.isAuthenticated,
+        buildingBurger: state.burger.building,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        initIngredients: () => dispatch(actionCreators.initIngredients()),
+        initIngredients: () => dispatch(actions.initIngredients()),
         setIngredients: (ingredients) =>
-            dispatch(actionCreators.setIngredients(ingredients)),
+            dispatch(actions.setIngredients(ingredients)),
         onIngredientAdd: (ingredient) =>
-            dispatch(actionCreators.addIngredient(ingredient)),
+            dispatch(actions.addIngredient(ingredient)),
         onIngredientRemove: (ingredient) =>
-            dispatch(actionCreators.removeIngredient(ingredient)),
+            dispatch(actions.removeIngredient(ingredient)),
+        setAuthRedirectPath: (path) =>
+            dispatch(actions.setAuthRedirectPath(path)),
     };
 };
 

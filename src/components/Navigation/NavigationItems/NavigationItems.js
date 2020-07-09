@@ -7,11 +7,11 @@ import NavigationItem from "./NavigationItem/NavigationItem";
 const navigationItems = (props) => (
     <ul className={CssClass.NavigationItems}>
         <NavigationItem link="/">BurgerBuilder</NavigationItem>
+        {props.isAuthenticated && (
+            <NavigationItem link="/orders">Orders</NavigationItem>
+        )}
         {props.isAuthenticated ? (
-            <React.Fragment>
-                <NavigationItem link="/orders">Orders</NavigationItem>
-                <NavigationItem link="/logout">Logout</NavigationItem>
-            </React.Fragment>
+            <NavigationItem link="/logout">Logout</NavigationItem>
         ) : (
             <NavigationItem link="/auth">Authentication</NavigationItem>
         )}

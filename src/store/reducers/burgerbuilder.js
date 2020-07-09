@@ -1,20 +1,22 @@
 import * as actionTypes from "../actions/actionTypes";
 import { INGREDIENT_PRICES } from "../../components/Burger/Ingredients/ingredients";
-import { updateObject, calculatePrice } from "../utility";
+import { updateObject, formatIngredients, calculatePrice } from "../utility";
 
 const initialState = {
     ingredients: null,
     price: 4.0,
     error: false,
+    building: false,
 };
 
 const setIngredients = (state, action) => {
-    const updatedIngredients = { ...action.ingredients };
+    const updatedIngredients = formatIngredients(action.ingredients);
     const updatedPrice =
         initialState.price + calculatePrice(action.ingredients);
     return updateObject(state, {
         ingredients: updatedIngredients,
         price: updatedPrice,
+        building: false,
     });
 };
 
@@ -36,6 +38,7 @@ const addIngredient = (state, action) => {
     return updateObject(state, {
         ingredients: updatedIngredients,
         price: updatedPrice,
+        building: true,
     });
 };
 
@@ -50,11 +53,16 @@ const removeIngredient = (state, action) => {
     return updateObject(state, {
         ingredients: updatedIngredients,
         price: updatedPrice,
+        building: true,
     });
 };
 
 const fetchIngredientsFailed = (state, action) => {
     return updateObject(state, { error: true });
+};
+
+const resetBurgerBuilding = (state, action) => {
+    return updateObject(state, { building: false });
 };
 
 const reducer = (state = initialState, action) => {
@@ -69,6 +77,8 @@ const reducer = (state = initialState, action) => {
             return removeIngredient(state, action);
         case actionTypes.FETCH_INGREDIENTS_FAILED:
             return fetchIngredientsFailed(state, action);
+        case actionTypes.RESET_BURGER_BUILDING:
+            return resetBurgerBuilding(state, action);
         default:
             return state;
     }

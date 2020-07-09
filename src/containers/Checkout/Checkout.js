@@ -60,12 +60,14 @@ const mapStateToProps = (state) => {
     return {
         ingredients: state.burger.ingredients,
         purchased: state.order.purchased,
+        buildingBurger: state.burger.building,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         resetPurchasedState: () => dispatch(actions.resetPurchasedState()),
+        setIngredients: () => dispatch(actions.initIngredients()),
     };
 };
 

@@ -1,9 +1,11 @@
 import * as actionTypes from "./actionTypes";
 import Axios from "axios";
+import { setDataInStorage, getDataFromStorage, clearStorage } from "../utility";
 
 const API_KEY = "AIzaSyDD6O7b7675D4UgT4mXfHLr4YiIHeTRg1o";
 const SIGH_UP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
 const SIGN_IN_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
+// const GET_USER_DATA_URL = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`;
 
 const authStart = () => {
     return {
@@ -42,13 +44,16 @@ const auth = (authData) => {
         }
         Axios.post(url, payload)
             .then((response) => {
-                console.log(response);
                 const authData = {
                     token: response.data.idToken,
                     userId: response.data.localId,
                     refreshToken: response.data.refreshToken,
                     email: response.data.email,
                 };
+                const expiresIn = new Date(
+                    new Date().getTime() + response.data.expiresIn * 1000
+                ).getTime();
+                setDataInStorage(authData.token, authData.userId, expiresIn);
                 dispatch(authSuccess(authData));
                 dispatch(
                     checkAuthTimeout(
@@ -68,6 +73,7 @@ const authLogout = () => {
 
 const logout = () => {
     return (dispatch, getState) => {
+        clearStorage();
         clearTimeout(getState().auth.logoutTimer);
         dispatch(authLogout());
     };
@@ -89,4 +95,28 @@ const setLogoutTimerId = (timerId) => {
     };
 };
 
-export { auth, logout };
+const setAuthRedirectPath = (path) => {
+    return {
+        type: actionTypes.SET_AUTH_REDIRECT_PATH,
+        path: path,
+    };
+};
+
+const checkAuthStatus = () => {
+    return (dispatch) => {
+        const data = getDataFromStorage();
+        if (data.token) {
+            if (data.expiresIn > new Date().getTime()) {
+                const authData = {
+                    token: data.token,
+                    userId: data.userId,
+                };
+                dispatch(authSuccess(authData));
+                const expireTime = data.expiresIn - new Date().getTime();
+                dispatch(checkAuthTimeout(parseInt(expireTime, 10)));
+            }
+        }
+    };
+};
+
+export { auth, logout, setAuthRedirectPath, checkAuthStatus };

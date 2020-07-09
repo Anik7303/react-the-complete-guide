@@ -94,7 +94,6 @@ class Auth extends React.Component {
     };
 
     formSubmitHandler = (event) => {
-        console.log(event);
         event.preventDefault();
         const authData = {
             email: this.state.controls.email.value,
@@ -108,8 +107,16 @@ class Auth extends React.Component {
         this.setState((state) => ({ signupMode: !state.signupMode }));
     };
 
+    componentDidMount() {
+        if (!this.props.buildingBurger && this.props.redirectPath !== "/") {
+            this.props.setAuthRedirectPath();
+        }
+    }
+
     render() {
-        if (this.props.isAuthenticated) return <Redirect to="/" />;
+        if (this.props.isAuthenticated) {
+            return <Redirect to={this.props.redirectPath} />;
+        }
         const formArray = Object.keys(this.state.controls).map((key) => {
             return (
                 <Input
@@ -158,12 +165,15 @@ const mapStateToProps = (state) => {
         authenticating: state.auth.authenticating,
         isAuthenticated: state.auth.isAuthenticated,
         error: state.auth.error,
+        redirectPath: state.auth.redirectPath,
+        buildingBurger: state.burger.building,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         authenticate: (authData) => dispatch(actions.auth(authData)),
+        setAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/")),
     };
 };
 
