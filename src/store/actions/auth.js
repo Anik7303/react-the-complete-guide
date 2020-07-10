@@ -42,7 +42,6 @@ const auth = (authData) => {
         if (!authData.signupMode) {
             url = SIGN_IN_URL;
         }
-        console.log("API Key: ", API_KEY);
         Axios.post(url, payload)
             .then((response) => {
                 const authData = {
