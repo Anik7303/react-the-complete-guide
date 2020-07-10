@@ -2,7 +2,7 @@ import * as actionTypes from "./actionTypes";
 import Axios from "axios";
 import { setDataInStorage, getDataFromStorage, clearStorage } from "../utility";
 
-const API_KEY = "AIzaSyDD6O7b7675D4UgT4mXfHLr4YiIHeTRg1o";
+const API_KEY = process.env.API_KEY || "not-provided";
 const SIGH_UP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
 const SIGN_IN_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 // const GET_USER_DATA_URL = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`;
@@ -42,6 +42,7 @@ const auth = (authData) => {
         if (!authData.signupMode) {
             url = SIGN_IN_URL;
         }
+        console.log("API Key: ", API_KEY);
         Axios.post(url, payload)
             .then((response) => {
                 const authData = {
